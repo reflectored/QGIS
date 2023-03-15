@@ -175,7 +175,7 @@ class CORE_EXPORT QgsMapLayerRenderer
      * \note Not available in Python bindings
      * \since QGIS 3.18
      */
-    static constexpr int MAX_TIME_TO_USE_CACHED_PREVIEW_IMAGE = 3000 SIP_SKIP;
+    static constexpr int MAX_TIME_TO_USE_CACHED_PREVIEW_IMAGE = 1 SIP_SKIP;
 
     /**
      * Appends the \a details of a rendered item to the renderer.
