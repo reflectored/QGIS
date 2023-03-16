@@ -205,7 +205,7 @@ bool QgsVectorLayerRenderer::render()
     res = renderInternal( renderer.get() ) && res;
   }
 
-  return res && !renderContext()->renderingStopped();
+  return res;
 }
 
 bool QgsVectorLayerRenderer::renderInternal( QgsFeatureRenderer *renderer )
@@ -425,14 +425,15 @@ void QgsVectorLayerRenderer::drawRenderer( QgsFeatureRenderer *renderer, QgsFeat
   }
 
   QgsFeature fet;
-  while ( fit.nextFeature( fet ) )
+  bool last_feature = false;
+  while ( fit.nextFeature( fet ) && !last_feature )
   {
     try
     {
       if ( context.renderingStopped() )
       {
-        QgsDebugMsgLevel( QStringLiteral( "Drawing of vector layer %1 canceled." ).arg( layerId() ), 2 );
-        break;
+        last_feature = true;
+        QgsDebugMsgLevel( QStringLiteral( "Drawing of vector layer %1 is cancelled. Drawing last feature." ).arg( layerId() ), 2 );
       }
 
       if ( !fet.hasGeometry() || fet.geometry().isEmpty() )
